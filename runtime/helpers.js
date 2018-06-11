@@ -157,64 +157,11 @@ module.exports = {
     },
 
     /**
-     * Waits until a HTML attribute no longer exists
-     * @param {string} elementSelector - HTML element CSS selector
-     * @param {string} attributeName - name of the attribute to inspect
-     * @param {integer} waitInMilliseconds - number of milliseconds to wait for page to load
-     * @returns {Promise} resolves if attribute is removed within timeout, otherwise rejects
-     * @example
-     *      helpers.waitUntilAttributeDoesNotExists('html', 'data-busy', 5000);
+     * Convert String to Boolean
+     * @param str
+     * @returns {boolean}
      */
-    waitUntilAttributeDoesNotExists: function (elementSelector, attributeName, waitInMilliseconds) {
-        // use either passed in timeout or global default
-        var timeout = waitInMilliseconds || DEFAULT_TIMEOUT;
-        // readable error message
-        var timeoutMessage = attributeName + ' still exists after ' + waitInMilliseconds + ' milliseconds';
-        // repeatedly execute the test until it's true or we timeout
-        return driver.wait(function () {
-            // get the html attribute value using helper method
-            return helpers.getAttributeValue(elementSelector, attributeName).then(function (value) {
-                // attribute exists if value is not null
-                return value === null;
-            });
-        }, timeout, timeoutMessage);
-    },
 
-    /**
-     * Get the content value of a :before pseudo element
-     * @param {string} cssSelector - css selector of element to inspect
-     * @returns {Promise} executes .then with value
-     * @example
-     *      helpers.getPseudoElementBeforeValue('body header').then(function(value) {
-     *          console.log(value);
-     *      });
-     */
-    getPseudoElementBeforeValue: function (cssSelector) {
-        function getBeforeContentValue(qs) {
-            var el = document.querySelector(qs);
-            var styles = el ? window.getComputedStyle(el, ':before') : null;
-            return styles ? styles.getPropertyValue('content') : '';
-        }
-        return driver.executeScript(getBeforeContentValue, cssSelector);
-    },
-
-    /**
-     * Get the content value of a :after pseudo element
-     * @param {string} cssSelector - css selector of element to inspect
-     * @returns {Promise} executes .then with value
-     * @example
-     *      helpers.getPseudoElementAfterValue('body header').then(function(value) {
-     *          console.log(value);
-     *      });
-     */
-    getPseudoElementAfterValue: function (cssSelector) {
-        function getAfterContentValue(qs) {
-            var el = document.querySelector(qs);
-            var styles = el ? window.getComputedStyle(el, ':after') : null;
-            return styles ? styles.getPropertyValue('content') : '';
-        }
-        return driver.executeScript(getAfterContentValue, cssSelector);
-    },
     stringToBoolean: function (str) {
         if (str == "true") {
             return true
